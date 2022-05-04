@@ -1,2 +1,2 @@
 # leetcode
-Solutions to leetcode problems
+Because it is always prudent to keep one's sword sharp. 
