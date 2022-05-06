@@ -19,19 +19,18 @@ func (l * LinkedList) insert(val int) {
 	node := &ListNode{Val: val, Next: nil}
 	if l.Len == 0 {
 		l.Head = node
-		l.Len++
 	} else {
 		ptr := l.Head
 		for i := 0; i < l.Len; i++ {
 			if ptr.Next == nil {
 				ptr.Next = node
-				l.Len++
 				break
 			} else {
 				ptr = ptr.Next
 			}
 		}
 	}
+	l.Len++
 }
 
 
