@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 type ListNode struct {
@@ -9,30 +11,21 @@ type ListNode struct {
   Next *ListNode
 }
 
-type LinkedList struct {
-	Head *ListNode
-	Len int
-}
-
-
-func (l * LinkedList) insert(val int) {
-	node := &ListNode{Val: val, Next: nil}
-	if l.Len == 0 {
-		l.Head = node
+func insert(list *ListNode, val int) {
+	// If Next points to itself, this is the head of the list.
+	if list.Next == list {
+		list.Val = val
+		list.Next = nil
 	} else {
-		ptr := l.Head
-		for i := 0; i < l.Len; i++ {
-			if ptr.Next == nil {
-				ptr.Next = node
-				break
-			} else {
-				ptr = ptr.Next
-			}
+		// Iterate the nodes until Next is nil:
+		ptr := list
+		for (ptr.Next != nil) {
+			ptr = ptr.Next
 		}
+		// Found the end of the list.  Add the node:
+		ptr.Next = &ListNode{val, nil}
 	}
-	l.Len++
 }
-
 
 func getNumber(list *ListNode) int {
 	multiplier := 1
@@ -46,26 +39,55 @@ func getNumber(list *ListNode) int {
 	return number
 }
 
+func newLinkedList() *ListNode {
+	p := &ListNode{}
+	// Mark this as the head of the list (Next points to itself)
+	p.Next = p
+	return p
+}
+
+
+// Given 807, return [7, 0, 8]
+func getDigits(num int) []int {
+	var s []int
+	asTxt := strconv.FormatInt(int64(num), 10)
+	chars := strings.Split(asTxt, "")
+	nChars := len(chars)
+	for i := (nChars - 1); i >= 0; i-- {
+		digit, _ := strconv.Atoi(chars[i])
+		s = append(s, digit)
+	}
+
+	return s
+}
+
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+    
+}
+
 
 func main() {
-	xl := LinkedList{}
-	yl := LinkedList{}
+	xl := newLinkedList()
+	yl := newLinkedList()
 
 	xd := []int{2, 4, 3,}
 	yd := []int{5, 6, 4,}
 
 	for _, x := range(xd) {
-		xl.insert(x)
+		insert(xl, x)
 	}
 
-	xn := getNumber(xl.Head)
+	xn := getNumber(xl)
 
 	for _, y := range(yd) {
-		yl.insert(y)
+		insert(yl, y)
 	}
-	yn := getNumber(yl.Head)
+	yn := getNumber(yl)
 
-
+	sum := xn + yn
+	digits := getDigits(sum)
+	
 	fmt.Printf("Slice: %v, Number: %d\n", xd, xn)
 	fmt.Printf("Slice: %v, Number: %d\n", yd, yn)
+	fmt.Printf("Slice: %v, Number: %d\n", digits, sum)
 }
