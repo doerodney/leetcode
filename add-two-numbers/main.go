@@ -61,8 +61,40 @@ func getDigits(num int) []int {
 	return s
 }
 
+
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-    
+
+	sum := 0
+	current := &ListNode{0, nil}
+	result := current;
+	
+	for l1 != nil || l2 != nil {
+		
+		if (l1 != nil) {
+			sum += l1.Val
+			l1 = l1.Next
+		}
+		
+		if (l2 != nil) {
+			sum += l2.Val
+			l2 = l2.Next
+		}
+		
+		current.Next =  &ListNode{sum % 10, nil}
+		current = current.Next;
+		
+		if sum > 9 {
+			sum = 1
+		} else {
+			sum = 0
+		}
+	}
+	
+	if sum > 0 {
+		current.Next = &ListNode{sum, nil}
+	}
+	
+	return result.Next
 }
 
 
@@ -84,10 +116,10 @@ func main() {
 	}
 	yn := getNumber(yl)
 
-	sum := xn + yn
-	digits := getDigits(sum)
+	rl := addTwoNumbers(xl, yl)
+	num := getNumber(rl)
 	
 	fmt.Printf("Slice: %v, Number: %d\n", xd, xn)
 	fmt.Printf("Slice: %v, Number: %d\n", yd, yn)
-	fmt.Printf("Slice: %v, Number: %d\n", digits, sum)
+	fmt.Printf("Number: %d\n", num)
 }
