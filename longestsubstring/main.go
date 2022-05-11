@@ -6,37 +6,41 @@ import (
 
 func lengthOfLongestSubstring(s string) int {
     maxLen := 0
-	runes := []rune(s)
 
-	for i := 0; i < len(runes); i++ {
+	for i := 0; i < len(s); i++ {
 		// Make an empty set:
-		set := make(map[rune]int)
+		set := make(map[byte]int)
 
-		// Iterate runes from new starting index:
-		for j:= i; j < len(runes); j++ {
-			r := runes[j]
-			// Try to get j'th rune from set:
-			_, ok := set[r]
+		// Iterate bytes from new starting index:
+		for j:= i; j < len(s); j++ {
+			b := s[j]
+			// Try to get j'th byte from set:
+			_, ok := set[b]
 			if ok {
-				// Found it.  Calculate len of set.
+				// b is already in the set.  Calculate len of set.
+				break
+			} else {
+				// Add byte to set as key:
+				set[b]++
 				setLen := len(set)
 				if setLen > maxLen {
 					maxLen = setLen
 				}
-				break
-			} else {
-				// Add rune to set as key:
-				set[r]++
 			}
 		}
-		// fmt.Printf("Index: %d, Letter: %s\n", i, string(letter))
 	}
 
 	return maxLen
 }
 
 func main() {
-	targets := []string {"abcabcbb", "bbbbb", "pwwkew" }
+	targets := []string {"hula hoop", "abcabcbb", "bbbbb", "pwwkew" }
+
+	for idx, x := range targets[0] {
+		fmt.Printf("Index: %d, byte: %d\n", idx, x)
+	}
+
+
 	for _, s := range targets {
 		l := lengthOfLongestSubstring(s)
 		fmt.Printf("Length of longest substring in %s is %d\n", s, l)
