@@ -40,24 +40,52 @@ import (
     return &TreeNode{Val: val}
 }
 
+func ReportNode(node *TreeNode) {
+	if node != nil {
+		fmt.Printf("Node: %d\n", node.Val)
+		if node.Left != nil {
+			fmt.Printf("\tNode.Left.Val: %d\n", node.Left.Val)
+		} else {
+			fmt.Printf("\tNode.Left.Val: nil\n")
+		}
+		if node.Right != nil {
+			fmt.Printf("\tNode.Right.Val: %d\n", node.Right.Val)
+		} else {
+			fmt.Printf("\tNode.Right.Val: nil\n")
+		}
+	}
+}
+
+
+func TraverseBST(root *TreeNode) {
+	var stack stack.Stack
+	current := root
+
+	for current != nil || !stack.IsEmpty() {
+		// Push all the left nodes into the stack:
+		for current != nil {
+			stack.Push(current)
+			current = current.Left
+		}
+
+		// Pop the left node stack and visit its right nodes:
+		if current == nil && !stack.IsEmpty() {
+			obj, _ := stack.Pop()
+			// Dynamic cast type from interface{} to *TreeNode:
+			current = obj.(*TreeNode)
+			ReportNode(current)
+			current = current.Right
+		}
+	}
+}
 
 func main() {
-	values := []int{8, 6, 4, 2, 7}
+	values := []int{4,2,1,3,6,5,7}
 
 	var root *TreeNode
 	for _, value := range values {
 		root = insertIntoBST(root, value)
 	}
 
-	var stack stack.Stack
-	stack.Push(0)
-	stack.Push(1)
-	stack.Push(2)
-
-	for !stack.IsEmpty() {
-		value, ok := stack.Pop()
-		if ok {
-			fmt.Println(value)
-		}
-	}
+	TraverseBST(root)	
 }
