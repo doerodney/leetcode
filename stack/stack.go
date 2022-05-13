@@ -1,23 +1,24 @@
 package stack
 
-type Stack []int
+type Stack struct {
+	data []interface{}
+}
 
 func (s *Stack) IsEmpty() bool {
-	return len(*s) == 0
+	return len(s.data) == 0
 }
 
-func (s *Stack) Push(n int) {
-	*s = append(*s, n)
+func (s *Stack) Push(x interface{}) {
+	s.data = append(s.data, x)
 }
 
-func (s *Stack) Pop() (int, bool) {
+func (s *Stack) Pop() (interface{}, bool) {
 	if s.IsEmpty() {
 		return -1, false
 	} else {
-		index := len(*s) - 1
-		element := (*s)[index]
-		*s = (*s)[:index]
+		index := len(s.data) - 1
+		element := (s.data)[index]
+		s.data = (s.data)[:index]
 		return element, true
 	}
 }
-
